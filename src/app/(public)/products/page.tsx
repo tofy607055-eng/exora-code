@@ -75,9 +75,9 @@ export default function ProductsPage() {
           <div style={{ color: '#B8B8C7', fontFamily: 'Cairo, sans-serif' }}>جاري التحميل...</div>
         </section>
       ) : (
-        <section style={{ padding: '5rem 0', background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
-          <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
-            <div style={{ display: 'grid', gridTemplateColumns: '280px 1fr', gap: '2rem', alignItems: 'start' }}>
+      <section className="section" style={{ background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
+          <div className="container">
+            <div className="products-layout">
 
               {/* ── Sidebar nav ── */}
               <div ref={barRef} style={{ position: 'sticky', top: '6rem', display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -179,9 +179,8 @@ export default function ProductsPage() {
             </div>
           </div>
           <style>{`
-            @media(max-width: 900px) {
-              section > div > div[style*="280px"] { grid-template-columns: 1fr !important; }
-            }
+            .products-layout { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+            @media (min-width: 900px) { .products-layout { grid-template-columns: 260px 1fr; } }
           `}</style>
         </section>
       )}

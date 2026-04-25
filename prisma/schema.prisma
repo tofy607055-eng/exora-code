@@ -47,10 +47,10 @@ model Service {
   id          String   @id @default(cuid())
   title       String
   description String
-  icon        String?  // emoji or icon name
+  icon        String?
   color       String   @default("#7B3EFF")
-  tags        String?  // JSON array e.g. ["React","Next.js"]
-  stat        String?  // e.g. "120+ موقع"
+  tags        String?
+  stat        String?
   order       Int      @default(0)
   visible     Boolean  @default(true)
   createdAt   DateTime @default(now())
@@ -58,19 +58,19 @@ model Service {
 }
 
 model BlogPost {
-  id          String   @id @default(cuid())
-  title       String
-  slug        String   @unique
-  excerpt     String?
-  content     String
-  imageUrl    String?
-  category    String?
-  status      String   @default("draft")
-  metaTitle   String?
-  metaDesc    String?
-  author      String   @default("فريق إكسورا كود")
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id        String   @id @default(cuid())
+  title     String
+  slug      String   @unique
+  excerpt   String?
+  content   String
+  imageUrl  String?
+  category  String?
+  status    String   @default("draft")
+  metaTitle String?
+  metaDesc  String?
+  author    String   @default("فريق إكسورا كود")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model FAQ {
@@ -115,21 +115,21 @@ model Software {
   visible     Boolean        @default(true)
   demoUrl     String?
   order       Int            @default(0)
-  plans       SoftwarePlan[]
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
+  plans       SoftwarePlan[]
 }
 
 model SoftwarePlan {
   id         String   @id @default(cuid())
   softwareId String
-  software   Software @relation(fields: [softwareId], references: [id], onDelete: Cascade)
   name       String
   price      String
   period     String   @default("شهر")
   features   String
   popular    Boolean  @default(false)
   order      Int      @default(0)
+  software   Software @relation(fields: [softwareId], references: [id], onDelete: Cascade)
 }
 
 model Setting {

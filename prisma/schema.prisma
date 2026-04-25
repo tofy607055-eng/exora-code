@@ -1,0 +1,154 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  email     String
+  phone     String?
+  service   String?
+  budget    String?
+  message   String
+  status    String   @default("new")
+  notes     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Project {
+  id           String   @id @default(cuid())
+  title        String
+  slug         String   @unique
+  category     String
+  description  String
+  details      String?
+  problem      String?
+  solution     String?
+  result       String?
+  technologies String?
+  imageUrl     String?
+  images       String?
+  link         String?
+  featured     Boolean  @default(false)
+  published    Boolean  @default(true)
+  order        Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model Service {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  icon        String?  // emoji or icon name
+  color       String   @default("#7B3EFF")
+  tags        String?  // JSON array e.g. ["React","Next.js"]
+  stat        String?  // e.g. "120+ موقع"
+  order       Int      @default(0)
+  visible     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BlogPost {
+  id          String   @id @default(cuid())
+  title       String
+  slug        String   @unique
+  excerpt     String?
+  content     String
+  imageUrl    String?
+  category    String?
+  status      String   @default("draft")
+  metaTitle   String?
+  metaDesc    String?
+  author      String   @default("فريق إكسورا كود")
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model FAQ {
+  id       String  @id @default(cuid())
+  question String
+  answer   String
+  order    Int     @default(0)
+  visible  Boolean @default(true)
+}
+
+model Testimonial {
+  id          String   @id @default(cuid())
+  clientName  String
+  projectType String?
+  rating      Int      @default(5)
+  text        String
+  visible     Boolean  @default(true)
+  createdAt   DateTime @default(now())
+}
+
+model Pricing {
+  id       String  @id @default(cuid())
+  name     String
+  price    String
+  features String
+  duration String?
+  featured Boolean @default(false)
+  visible  Boolean @default(true)
+  order    Int     @default(0)
+}
+
+model Software {
+  id          String         @id @default(cuid())
+  name        String
+  tagline     String?
+  description String
+  icon        String         @default("💻")
+  color       String         @default("#7B3EFF")
+  category    String?
+  featured    Boolean        @default(false)
+  free        Boolean        @default(false)
+  visible     Boolean        @default(true)
+  demoUrl     String?
+  order       Int            @default(0)
+  plans       SoftwarePlan[]
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+model SoftwarePlan {
+  id         String   @id @default(cuid())
+  softwareId String
+  software   Software @relation(fields: [softwareId], references: [id], onDelete: Cascade)
+  name       String
+  price      String
+  period     String   @default("شهر")
+  features   String
+  popular    Boolean  @default(false)
+  order      Int      @default(0)
+}
+
+model Setting {
+  key   String @id
+  value String
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  referrer  String?
+  userAgent String?
+  createdAt DateTime @default(now())
+}
+
+model ContactAttempt {
+  id        String   @id @default(cuid())
+  path      String   @default("/contact")
+  ip        String?
+  submitted Boolean  @default(false)
+  createdAt DateTime @default(now())
+}

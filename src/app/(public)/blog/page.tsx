@@ -71,20 +71,19 @@ export default async function BlogPage() {
 
       {/* Posts */}
       <section className="section" style={{ background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
-      <section className="section-blog">
         <div className="container">
 
           {/* Featured */}
           {featured && (
-            <Link href={`/blog/${(featured as any).slug}`} className="featured-link">
-              <div className="featured-card" style={{
+            <Link href={`/blog/${(featured as any).slug}`} style={{ textDecoration: 'none', display: 'block', marginBottom: '2rem' }}>
+              <div className="featured-post" style={{
                 background: `linear-gradient(145deg, ${catColors[(featured as any).category] || '#7B3EFF'}12, rgba(10,0,31,0.8))`,
                 border: `1px solid ${catColors[(featured as any).category] || '#7B3EFF'}30`,
               }}>
                 {/* Image */}
-                <div className="featured-image" style={{ background: `linear-gradient(135deg, ${catColors[(featured as any).category] || '#7B3EFF'}25, ${catColors[(featured as any).category] || '#7B3EFF'}08)` }}>
-                  <div style={{ fontSize: '5rem', opacity: 0.3 }}><BookOpen size={80} color={catColors[(featured as any).category] || '#7B3EFF'} /></div>
-                  <div className="badge-featured" style={{ background: `${catColors[(featured as any).category] || '#7B3EFF'}20`, border: `1px solid ${catColors[(featured as any).category] || '#7B3EFF'}40`, color: catColors[(featured as any).category] || '#A066FF' }}>
+                <div className="featured-image" style={{ background: `linear-gradient(135deg, ${catColors[(featured as any).category] || '#7B3EFF'}25, ${catColors[(featured as any).category] || '#7B3EFF'}08)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                  <BookOpen size={80} color={catColors[(featured as any).category] || '#7B3EFF'} style={{ opacity: 0.3 }} />
+                  <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: `${catColors[(featured as any).category] || '#7B3EFF'}20`, border: `1px solid ${catColors[(featured as any).category] || '#7B3EFF'}40`, color: catColors[(featured as any).category] || '#A066FF', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontFamily: 'Cairo, sans-serif', fontWeight: 700 }}>
                     مقال مميز ⭐
                   </div>
                 </div>

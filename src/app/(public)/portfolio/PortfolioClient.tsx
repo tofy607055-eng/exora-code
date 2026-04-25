@@ -147,7 +147,7 @@ export default function PortfolioPageClient() {
                           <span style={{ color, fontSize: '0.875rem', fontWeight: 700, fontFamily: 'Cairo, sans-serif', display: 'flex', alignItems: 'center', gap: '0.4rem', transition: 'gap 0.2s' }}>
                             عرض التفاصيل <ExternalLink size={14} style={{ transform: isHov ? 'translate(2px, -2px)' : 'none', transition: 'transform 0.2s' }} />
                           </span>
-                          <div style={{ width: '3rem', height: '2px', background: `linear-gradient(90deg, transparent, ${color})`, borderRadius: '1px', transition: 'width 0.3s', width: isHov ? '4.5rem' : '3rem' as any }} />
+                          <div style={{ height: '2px', background: `linear-gradient(90deg, transparent, ${color})`, borderRadius: '1px', transition: 'width 0.3s', width: isHov ? '4.5rem' : '3rem' }} />
                         </div>
                       </div>
 

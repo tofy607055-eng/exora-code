@@ -52,10 +52,10 @@ export default async function BlogPage() {
   return (
     <>
       {/* Hero */}
-      <section style={{ paddingTop: '7rem', paddingBottom: '4rem', background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)', position: 'relative', overflow: 'hidden' }}>
+      <section className="section-hero" style={{ background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)' }}>
         <HeroBackground />
         <div style={{ position: 'absolute', top: '15%', left: '50%', transform: 'translateX(-50%)', width: '700px', height: '400px', background: 'radial-gradient(ellipse, rgba(123,62,255,0.1) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center', position: 'relative' }}>
+        <div className="container" style={{ textAlign: 'center', position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(123,62,255,0.1)', border: '1px solid rgba(123,62,255,0.25)', borderRadius: '2rem', padding: '0.4rem 1.25rem', marginBottom: '1.5rem' }}>
             <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#A066FF', display: 'block' }} />
             <span style={{ color: '#A066FF', fontSize: '0.85rem', fontFamily: 'Cairo, sans-serif', fontWeight: 600 }}>المدونة</span>
@@ -70,24 +70,21 @@ export default async function BlogPage() {
       </section>
 
       {/* Posts */}
-      <section style={{ padding: '5rem 0', background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <section className="section" style={{ background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
+      <section className="section-blog">
+        <div className="container">
 
           {/* Featured */}
           {featured && (
-            <Link href={`/blog/${(featured as any).slug}`} style={{ textDecoration: 'none', display: 'block', marginBottom: '2rem' }}>
-              <div style={{
-                borderRadius: '1.25rem', overflow: 'hidden',
+            <Link href={`/blog/${(featured as any).slug}`} className="featured-link">
+              <div className="featured-card" style={{
                 background: `linear-gradient(145deg, ${catColors[(featured as any).category] || '#7B3EFF'}12, rgba(10,0,31,0.8))`,
                 border: `1px solid ${catColors[(featured as any).category] || '#7B3EFF'}30`,
-                display: 'grid', gridTemplateColumns: '1fr 1fr',
-                transition: 'transform 0.3s, box-shadow 0.3s',
-              }}
->
+              }}>
                 {/* Image */}
-                <div style={{ height: '280px', background: `linear-gradient(135deg, ${catColors[(featured as any).category] || '#7B3EFF'}25, ${catColors[(featured as any).category] || '#7B3EFF'}08)`, display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative' }}>
+                <div className="featured-image" style={{ background: `linear-gradient(135deg, ${catColors[(featured as any).category] || '#7B3EFF'}25, ${catColors[(featured as any).category] || '#7B3EFF'}08)` }}>
                   <div style={{ fontSize: '5rem', opacity: 0.3 }}><BookOpen size={80} color={catColors[(featured as any).category] || '#7B3EFF'} /></div>
-                  <div style={{ position: 'absolute', top: '1rem', right: '1rem', background: `${catColors[(featured as any).category] || '#7B3EFF'}20`, border: `1px solid ${catColors[(featured as any).category] || '#7B3EFF'}40`, color: catColors[(featured as any).category] || '#A066FF', padding: '0.25rem 0.75rem', borderRadius: '1rem', fontSize: '0.75rem', fontFamily: 'Cairo, sans-serif', fontWeight: 700 }}>
+                  <div className="badge-featured" style={{ background: `${catColors[(featured as any).category] || '#7B3EFF'}20`, border: `1px solid ${catColors[(featured as any).category] || '#7B3EFF'}40`, color: catColors[(featured as any).category] || '#A066FF' }}>
                     مقال مميز ⭐
                   </div>
                 </div>
@@ -119,7 +116,7 @@ export default async function BlogPage() {
           )}
 
           {/* Grid */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1.25rem' }}>
+          <div className="grid-3">
             {rest.map((post: any) => {
               const color = catColors[post.category] || '#7B3EFF'
               return (
@@ -172,7 +169,11 @@ export default async function BlogPage() {
             })}
           </div>
         </div>
-        <style>{`@media(max-width:1024px){section>div>div[style*="repeat(3, 1fr)"]{grid-template-columns:repeat(2,1fr)!important}}@media(max-width:600px){section>div>div[style*="repeat(3, 1fr)"]{grid-template-columns:1fr!important}}`}</style>
+        <style>{`
+          .featured-post { border-radius: 1.25rem; overflow: hidden; background: inherit; border: inherit; display: grid; grid-template-columns: 1fr; }
+          @media (min-width: 700px) { .featured-post { grid-template-columns: 1fr 1fr; } }
+          .featured-post > div:first-child { height: clamp(200px, 30vw, 280px); }
+        `}</style>
       </section>
     </>
   )

@@ -1,6 +1,6 @@
 import { prisma } from '@/lib/prisma'
 import Link from 'next/link'
-import { ArrowRight, Calendar, User, Clock, BookOpen, Tag } from 'lucide-react'
+import { ArrowRight, Calendar, User, Clock, BookOpen, Tag, ArrowLeft } from 'lucide-react'
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 
@@ -36,8 +36,7 @@ const fallbackPosts: Record<string, any> = {
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   let post: any
-  try { post = await prisma.blogPost.findFirst({ where: { slug } }) }
-  catch { post = null }
+  try { post = await prisma.blogPost.findFirst({ where: { slug } }) } catch { post = null }
   if (!post) post = fallbackPosts[slug]
   return {
     title: post ? `${post.title} | إكسورا كود` : 'مقال | إكسورا كود',
@@ -47,19 +46,13 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
-
-  // Try DB first (only published posts, fallback to static if not found)
   let post: any = null
-  try { post = await prisma.blogPost.findFirst({ where: { slug, status: 'published' } }) }
-  catch { post = null }
-
-  // Fallback to static posts
+  try { post = await prisma.blogPost.findFirst({ where: { slug, status: 'published' } }) } catch { post = null }
   if (!post) post = fallbackPosts[slug] ?? null
   if (!post) return notFound()
 
   const color = catColors[post.category] || '#7B3EFF'
 
-  // Related posts
   const related: any[] = await prisma.blogPost.findMany({
     where: { category: post.category ?? undefined, NOT: { id: post.id } },
     take: 3,
@@ -68,22 +61,21 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <>
       {/* Hero */}
-      <section style={{ paddingTop: '7rem', paddingBottom: '4rem', background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)', position: 'relative', overflow: 'hidden' }}>
-        <div style={{ position: 'absolute', top: '30%', right: '5%', width: '500px', height: '500px', background: `radial-gradient(circle, ${color}10 0%, transparent 70%)`, pointerEvents: 'none' }} />
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 1.5rem', position: 'relative' }}>
-          <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#A066FF', textDecoration: 'none', fontFamily: 'Cairo, sans-serif', marginBottom: '2rem', fontSize: '0.875rem', fontWeight: 600 }}>
+      <section className="section-hero" style={{ background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)' }}>
+        <div className="container" style={{ maxWidth: '900px', position: 'relative' }}>
+          <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#A066FF', textDecoration: 'none', fontFamily: 'Cairo, sans-serif', marginBottom: '1.75rem', fontSize: '0.875rem', fontWeight: 600 }}>
             <ArrowRight size={15} /> العودة للمدونة
           </Link>
           {post.category && (
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: `${color}15`, border: `1px solid ${color}30`, borderRadius: '1rem', padding: '0.3rem 0.875rem', marginBottom: '1.5rem' }}>
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: `${color}15`, border: `1px solid ${color}30`, borderRadius: '1rem', padding: '0.3rem 0.875rem', marginBottom: '1.25rem' }}>
               <Tag size={12} color={color} />
               <span style={{ color, fontSize: '0.82rem', fontFamily: 'Cairo, sans-serif', fontWeight: 700 }}>{post.category}</span>
             </div>
           )}
-          <h1 style={{ fontFamily: 'Cairo, sans-serif', color: 'white', fontWeight: 900, fontSize: 'clamp(1.75rem, 4vw, 2.75rem)', marginBottom: '1.5rem', lineHeight: 1.3 }}>
+          <h1 style={{ fontFamily: 'Cairo, sans-serif', color: 'white', fontWeight: 900, fontSize: 'clamp(1.5rem, 4vw, 2.75rem)', marginBottom: '1.25rem', lineHeight: 1.3 }}>
             {post.title}
           </h1>
-          <div style={{ display: 'flex', gap: '1.5rem', flexWrap: 'wrap', color: '#9090A8', fontSize: '0.85rem', fontFamily: 'Cairo, sans-serif' }}>
+          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', color: '#9090A8', fontSize: '0.85rem', fontFamily: 'Cairo, sans-serif' }}>
             {post.author && (
               <span style={{ display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                 <User size={14} /> {post.author}
@@ -102,53 +94,53 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </section>
 
       {/* Content */}
-      <section style={{ padding: '4rem 0', background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
-        <div style={{ maxWidth: '900px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <section className="section" style={{ background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
+        <div className="container" style={{ maxWidth: '900px' }}>
           {/* Cover */}
           <div style={{
-            height: '300px', borderRadius: '1.25rem', marginBottom: '3rem',
+            height: 'clamp(180px, 30vw, 300px)', borderRadius: '1.25rem', marginBottom: '2.5rem',
             background: `linear-gradient(135deg, ${color}20, ${color}06)`,
             border: `1px solid ${color}25`,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
             position: 'relative', overflow: 'hidden',
           }}>
             <div style={{ position: 'absolute', inset: 0, opacity: 0.03, backgroundImage: 'linear-gradient(rgba(255,255,255,0.5) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.5) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
-            <BookOpen size={80} color={color} style={{ opacity: 0.2 }} />
+            <BookOpen size={70} color={color} style={{ opacity: 0.2 }} />
           </div>
 
           {/* Article body */}
-          <div style={{ background: 'rgba(123,62,255,0.03)', border: '1px solid rgba(123,62,255,0.1)', borderRadius: '1.25rem', padding: '3rem' }}>
+          <div className="blog-body">
             {post.content?.split('\n').map((line: string, i: number) => {
               if (line.startsWith('## ')) return (
-                <h2 key={i} style={{ color: 'white', fontWeight: 900, fontSize: '1.5rem', margin: '2.5rem 0 1rem', fontFamily: 'Cairo, sans-serif', borderBottom: `1px solid ${color}25`, paddingBottom: '0.75rem' }}>
+                <h2 key={i} style={{ color: 'white', fontWeight: 900, fontSize: 'clamp(1.2rem, 3vw, 1.5rem)', margin: '2rem 0 0.875rem', fontFamily: 'Cairo, sans-serif', borderBottom: `1px solid ${color}25`, paddingBottom: '0.625rem' }}>
                   {line.replace('## ', '')}
                 </h2>
               )
               if (line.startsWith('### ')) return (
-                <h3 key={i} style={{ color: 'white', fontWeight: 800, fontSize: '1.15rem', margin: '1.75rem 0 0.75rem', fontFamily: 'Cairo, sans-serif' }}>
+                <h3 key={i} style={{ color: 'white', fontWeight: 800, fontSize: 'clamp(1rem, 2.5vw, 1.15rem)', margin: '1.5rem 0 0.625rem', fontFamily: 'Cairo, sans-serif' }}>
                   {line.replace('### ', '')}
                 </h3>
               )
               if (line.startsWith('- ')) return (
-                <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', marginBottom: '0.625rem' }}>
+                <div key={i} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start', marginBottom: '0.5rem' }}>
                   <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: color, flexShrink: 0, marginTop: '0.6rem' }} />
-                  <span style={{ color: '#C8C8D8', fontFamily: 'Cairo, sans-serif', lineHeight: 1.8, fontSize: '1rem' }}>{line.replace('- ', '')}</span>
+                  <span style={{ color: '#C8C8D8', fontFamily: 'Cairo, sans-serif', lineHeight: 1.8, fontSize: 'clamp(0.9rem, 2vw, 1rem)' }}>{line.replace('- ', '')}</span>
                 </div>
               )
-              if (line.trim() === '') return <div key={i} style={{ height: '0.75rem' }} />
-              return <p key={i} style={{ color: '#C8C8D8', lineHeight: 1.9, fontFamily: 'Cairo, sans-serif', fontSize: '1rem', marginBottom: '1rem' }}>{line}</p>
+              if (line.trim() === '') return <div key={i} style={{ height: '0.625rem' }} />
+              return <p key={i} style={{ color: '#C8C8D8', lineHeight: 1.9, fontFamily: 'Cairo, sans-serif', fontSize: 'clamp(0.9rem, 2vw, 1rem)', marginBottom: '0.875rem' }}>{line}</p>
             })}
           </div>
 
           {/* Related */}
           {related.length > 0 && (
-            <div style={{ marginTop: '4rem', paddingTop: '3rem', borderTop: '1px solid rgba(123,62,255,0.15)' }}>
-              <h3 style={{ color: 'white', fontWeight: 800, fontFamily: 'Cairo, sans-serif', marginBottom: '1.5rem', fontSize: '1.2rem' }}>مقالات ذات صلة</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '1rem' }}>
+            <div style={{ marginTop: '3.5rem', paddingTop: '2.5rem', borderTop: '1px solid rgba(123,62,255,0.15)' }}>
+              <h3 style={{ color: 'white', fontWeight: 800, fontFamily: 'Cairo, sans-serif', marginBottom: '1.5rem', fontSize: 'clamp(1rem, 2.5vw, 1.2rem)' }}>مقالات ذات صلة</h3>
+              <div className="grid-3">
                 {related.map((r: any) => {
                   const rc = catColors[r.category] || '#7B3EFF'
                   return (
-                    <Link key={r.id} href={`/blog/${r.slug}`} className="hover-card" style={{ textDecoration: 'none', padding: '1.25rem', borderRadius: '1rem', background: `${rc}0A`, border: `1px solid ${rc}20`, display: 'block', transition: 'transform 0.2s' }}>
+                    <Link key={r.id} href={`/blog/${r.slug}`} className="hover-card" style={{ textDecoration: 'none', padding: '1.25rem', borderRadius: '1rem', background: `${rc}0A`, border: `1px solid ${rc}20`, display: 'block' }}>
                       <h4 style={{ color: 'white', fontFamily: 'Cairo, sans-serif', fontWeight: 700, fontSize: '0.9rem', marginBottom: '0.5rem', lineHeight: 1.4 }}>{r.title}</h4>
                       <p style={{ color: '#9090A8', fontSize: '0.78rem', fontFamily: 'Cairo, sans-serif' }}>{r.excerpt?.slice(0, 70)}...</p>
                     </Link>
@@ -157,8 +149,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
               </div>
             </div>
           )}
+
+          {/* Back link */}
+          <div style={{ marginTop: '3rem', paddingTop: '2rem', borderTop: '1px solid rgba(123,62,255,0.1)' }}>
+            <Link href="/blog" className="btn-outline" style={{ textDecoration: 'none', display: 'inline-flex' }}>
+              <ArrowRight size={16} /> العودة للمدونة
+            </Link>
+          </div>
         </div>
-        <style>{`@media(max-width:700px){section>div>div[style*="repeat(3, 1fr)"]{grid-template-columns:1fr!important}}`}</style>
+        <style>{`
+          .blog-body { background: rgba(123,62,255,0.03); border: 1px solid rgba(123,62,255,0.1); border-radius: 1.25rem; padding: clamp(1.25rem, 5vw, 3rem); }
+        `}</style>
       </section>
     </>
   )

@@ -74,9 +74,9 @@ export default function ContactPage() {
       </section>
 
       {/* ── Form + Info ── */}
-      <section style={{ padding: '5rem 0', background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 2fr', gap: '4rem', alignItems: 'start' }}>
+      <section className="section" style={{ background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
+        <div className="container">
+          <div className="grid-sidebar">
 
             {/* Info */}
             <div>
@@ -113,11 +113,11 @@ export default function ContactPage() {
             <div style={{ background: 'linear-gradient(145deg, rgba(20,0,50,0.7), rgba(10,0,31,0.4))', border: '1px solid rgba(123,62,255,0.2)', borderRadius: '1.5rem', padding: '2.5rem' }}>
               <h3 style={{ color: 'white', fontWeight: 800, fontFamily: 'Cairo, sans-serif', marginBottom: '1.75rem', fontSize: '1.15rem' }}>أرسل لنا تفاصيل مشروعك</h3>
               <form onSubmit={handleSubmit}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                <div className="grid-form-2" style={{ marginBottom: '1rem' }}>
                   <div><label style={lbl}>الاسم الكامل *</label><input required style={inp} value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} placeholder="أدخل اسمك" /></div>
                   <div><label style={lbl}>البريد الإلكتروني *</label><input required type="email" style={inp} value={form.email} onChange={e => setForm({ ...form, email: e.target.value })} placeholder="email@example.com" /></div>
                 </div>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem', marginBottom: '1rem' }}>
+                <div className="grid-form-2" style={{ marginBottom: '1rem' }}>
                   <div><label style={lbl}>رقم الجوال</label><input style={inp} value={form.phone} onChange={e => setForm({ ...form, phone: e.target.value })} placeholder="+967 7XX XXX XXX" /></div>
                   <div>
                     <label style={lbl}>نوع الخدمة</label>
@@ -148,7 +148,6 @@ export default function ContactPage() {
           </div>
         </div>
         <style>{`
-          @media(max-width:900px){ section > div > div[style*="1fr 2fr"]{ grid-template-columns:1fr!important; gap:2.5rem!important; } }
           input:focus, select:focus, textarea:focus { border-color: rgba(123,62,255,0.6) !important; box-shadow: 0 0 0 3px rgba(123,62,255,0.12); }
         `}</style>
       </section>

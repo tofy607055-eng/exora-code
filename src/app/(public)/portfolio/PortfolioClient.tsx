@@ -33,10 +33,10 @@ export default function PortfolioPageClient() {
   return (
     <>
       {/* ── Hero ── */}
-      <section style={{ paddingTop: '7rem', paddingBottom: '5rem', background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)', position: 'relative', overflow: 'hidden' }}>
+      <section className="section-hero" style={{ background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)' }}>
         <HeroBackground />
         <div style={{ position: 'absolute', top: '15%', left: '50%', transform: 'translateX(-50%)', width: '700px', height: '400px', background: 'radial-gradient(ellipse, rgba(123,62,255,0.12) 0%, transparent 70%)', pointerEvents: 'none' }} />
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem', textAlign: 'center', position: 'relative' }}>
+        <div className="container" style={{ textAlign: 'center', position: 'relative' }}>
           <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', background: 'rgba(123,62,255,0.1)', border: '1px solid rgba(123,62,255,0.25)', borderRadius: '2rem', padding: '0.4rem 1.25rem', marginBottom: '1.5rem' }}>
             <Sparkles size={12} color="#A066FF" />
             <span style={{ color: '#A066FF', fontSize: '0.85rem', fontFamily: 'Cairo, sans-serif', fontWeight: 600 }}>معرض أعمالنا</span>
@@ -54,8 +54,8 @@ export default function PortfolioPageClient() {
       </section>
 
       {/* ── Work ── */}
-      <section style={{ padding: '5rem 0', background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
-        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1.5rem' }}>
+      <section className="section" style={{ background: 'linear-gradient(180deg, #12002B 0%, #0A001F 100%)' }}>
+        <div className="container">
           {/* Filters */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flexWrap: 'wrap', justifyContent: 'center', marginBottom: '3.5rem' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: '0.4rem', color: '#9090A8', fontSize: '0.82rem', fontFamily: 'Cairo, sans-serif', marginLeft: '0.5rem' }}>
@@ -81,7 +81,7 @@ export default function PortfolioPageClient() {
 
           {/* Loading */}
           {loading && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '1.5rem' }}>
+            <div className="grid-auto">
               {[1, 2, 3, 4, 5, 6].map(i => (
                 <div key={i} style={{ borderRadius: '1.25rem', overflow: 'hidden', background: 'rgba(20,0,50,0.4)', border: '1px solid rgba(123,62,255,0.1)', height: '360px', animation: 'pulse 2s infinite' }} />
               ))}
@@ -98,7 +98,7 @@ export default function PortfolioPageClient() {
 
           {/* Grid */}
           {!loading && filtered.length > 0 && (
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(340px, 1fr))', gap: '1.5rem' }}>
+            <div className="grid-auto">
               {filtered.map((project, idx) => {
                 const color = catColors[project.category] || '#7B3EFF'
                 const emoji = catEmoji[project.category] || '✨'
@@ -162,7 +162,6 @@ export default function PortfolioPageClient() {
         </div>
         <style>{`
           @keyframes pulse { 0%,100%{opacity:.4} 50%{opacity:.7} }
-          @media(max-width:640px){ section > div > div[style*="340px"]{ grid-template-columns:1fr!important } }
         `}</style>
       </section>
     </>

@@ -47,7 +47,7 @@ export default function HeroAdminPage() {
   const [saved, setSaved] = useState(false)
   const [previewIdx, setPreviewIdx] = useState(0)
   const [previewKey, setPreviewKey] = useState(0)
-  const timerRef = useRef<NodeJS.Timeout>()
+  const timerRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined)
 
   useEffect(() => {
     fetch('/api/hero-settings')

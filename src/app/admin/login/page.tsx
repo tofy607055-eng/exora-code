@@ -15,9 +15,25 @@ export default function AdminLoginPage() {
     e.preventDefault()
     setStatus('loading')
 
+    // Step 1: Verify credentials against DB (which may have updated email/password)
+    const verifyRes = await fetch('/api/auth-verify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: form.email, password: form.password }),
+    })
+    const verifyData = await verifyRes.json()
+
+    if (!verifyData.ok) {
+      setStatus('error')
+      toast.error('فشل تسجيل الدخول', 'البريد الإلكتروني أو كلمة المرور غير صحيحة')
+      setTimeout(() => setStatus('idle'), 3000)
+      return
+    }
+
+    // Step 2: Call NextAuth signIn with the verified (actual stored) credentials
     const result = await signIn('credentials', {
-      email: form.email,
-      password: form.password,
+      email: verifyData.verifiedEmail,
+      password: verifyData.verifiedPassword,
       redirect: false,
     })
 
@@ -27,7 +43,7 @@ export default function AdminLoginPage() {
       window.location.href = '/admin/dashboard'
     } else {
       setStatus('error')
-      toast.error('فشل تسجيل الدخول', 'البريد الإلكتروني أو كلمة المرور غير صحيحة')
+      toast.error('فشل تسجيل الدخول', 'حدث خطأ غير متوقع، يرجى المحاولة مجدداً')
       setTimeout(() => setStatus('idle'), 3000)
     }
   }

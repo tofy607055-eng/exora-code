@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { LangProvider } from '@/lib/lang-context'
+import { ToastProvider } from '@/components/ToastProvider'
 
 const KEYWORDS = [
   // ── Brand Names (إكسورا بكل كتاباتها) ──
@@ -179,7 +180,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body>
-        <LangProvider>{children}</LangProvider>
+        <LangProvider><ToastProvider>{children}</ToastProvider></LangProvider>
       </body>
     </html>
   )

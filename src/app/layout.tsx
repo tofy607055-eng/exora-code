@@ -81,7 +81,7 @@ const KEYWORDS = [
 ].join(', ')
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://exoracode.com'),
+  metadataBase: new URL('https://exoracode.netlify.app'),
   title: {
     default: 'إكسورا كود | شركة تطوير مواقع وتطبيقات في عدن اليمن',
     template: '%s | إكسورا كود',
@@ -89,9 +89,12 @@ export const metadata: Metadata = {
   description:
     'إكسورا كود — شركة برمجة يمنية متخصصة في تطوير المواقع والتطبيقات والحلول الرقمية. نخدم عملاء من عدن واليمن والوطن العربي. احترافية عالمية بفهم محلي.',
   keywords: KEYWORDS,
-  authors: [{ name: 'إكسورا كود', url: 'https://exoracode.com' }],
+  authors: [{ name: 'إكسورا كود', url: 'https://exoracode.netlify.app' }],
   creator: 'إكسورا كود',
   publisher: 'إكسورا كود',
+  verification: {
+    google: '8FyiYf_UtYlwmtt_3vK0u7B0-l9L-Y1-p0mG9-Kq-M',
+  },
   robots: {
     index: true,
     follow: true,
@@ -102,7 +105,7 @@ export const metadata: Metadata = {
     description: 'شركة برمجة يمنية متخصصة في تطوير المواقع والتطبيقات والحلول الرقمية المخصصة.',
     locale: 'ar_YE',
     type: 'website',
-    url: 'https://exoracode.com',
+    url: 'https://exoracode.netlify.app',
     siteName: 'إكسورا كود',
     images: [{ url: '/og-image.png', width: 1200, height: 630, alt: 'إكسورا كود — شركة برمجة عدن اليمن' }],
   },
@@ -113,8 +116,8 @@ export const metadata: Metadata = {
     images: ['/og-image.png'],
   },
   alternates: {
-    canonical: 'https://exoracode.com',
-    languages: { 'ar-YE': 'https://exoracode.com' },
+    canonical: 'https://exoracode.netlify.app',
+    languages: { 'ar-YE': 'https://exoracode.netlify.app' },
   },
   category: 'technology',
 }

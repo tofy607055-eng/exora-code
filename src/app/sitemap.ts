@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { prisma } from '@/lib/prisma'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const BASE = 'https://exoracode.com'
+  const BASE = 'https://exoracode.netlify.app'
   const now = new Date()
 
   const staticPages = [

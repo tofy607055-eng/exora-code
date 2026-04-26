@@ -8,19 +8,20 @@ import {
   LayoutDashboard, MessageSquare, Briefcase, BookOpen,
   DollarSign, Settings, LogOut, ChevronLeft,
   ChevronDown, X, BarChart2, Layers, Home, Users, Wrench,
-  HelpCircle, Star, Phone, FileText, Tag, ShieldCheck, Sparkles
+  HelpCircle, Star, Phone, FileText, Tag, ShieldCheck, Sparkles, Megaphone
 } from 'lucide-react'
 
 const navItems = [
-  { label: 'الرئيسية',         href: '/admin/dashboard',  icon: <LayoutDashboard size={18} /> },
-  { label: 'الإحصائيات',       href: '/admin/analytics',  icon: <BarChart2 size={18} /> },
-  { label: 'الرسائل',          href: '/admin/messages',   icon: <MessageSquare size={18} /> },
-  { label: 'الأعمال',          href: '/admin/portfolio',  icon: <Briefcase size={18} /> },
-  { label: 'المدونة',          href: '/admin/blog',       icon: <BookOpen size={18} /> },
-  { label: 'برامجنا 💻',       href: '/admin/products',   icon: <Tag size={18} /> },
-  { label: 'الباقات والأسعار', href: '/admin/pricing',    icon: <DollarSign size={18} /> },
-  { label: 'نصوص الهيرو 🎯',   href: '/admin/hero',       icon: <Sparkles size={18} /> },
-  { label: 'الإعدادات',        href: '/admin/settings',   icon: <Settings size={18} /> },
+  { label: 'الرئيسية',         href: '/admin/dashboard',     icon: <LayoutDashboard size={18} /> },
+  { label: 'الإحصائيات',       href: '/admin/analytics',     icon: <BarChart2 size={18} /> },
+  { label: 'الرسائل',          href: '/admin/messages',      icon: <MessageSquare size={18} /> },
+  { label: 'شريط الإعلان 📢',  href: '/admin/announcement',  icon: <Megaphone size={18} /> },
+  { label: 'الأعمال',          href: '/admin/portfolio',     icon: <Briefcase size={18} /> },
+  { label: 'المدونة',          href: '/admin/blog',          icon: <BookOpen size={18} /> },
+  { label: 'برامجنا 💻',       href: '/admin/products',      icon: <Tag size={18} /> },
+  { label: 'الباقات والأسعار', href: '/admin/pricing',       icon: <DollarSign size={18} /> },
+  { label: 'نصوص الهيرو 🎯',   href: '/admin/hero',          icon: <Sparkles size={18} /> },
+  { label: 'الإعدادات',        href: '/admin/settings',      icon: <Settings size={18} /> },
 ]
 
 const pageItems = [

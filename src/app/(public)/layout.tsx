@@ -5,10 +5,12 @@ import ScrollToTop from '@/components/ScrollToTop'
 import PageTransition from '@/components/PageTransition'
 import PageViewTracker from '@/components/PageViewTracker'
 import SpotlightEffect from '@/components/SpotlightEffect'
+import AnnouncementBar from '@/components/AnnouncementBar'
 
 export default function PublicLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
+      <AnnouncementBar />
       <SpotlightEffect />
       <PageViewTracker />
       <Navbar />

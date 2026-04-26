@@ -38,11 +38,36 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   let post: any
   try { post = await prisma.blogPost.findFirst({ where: { slug } }) } catch { post = null }
   if (!post) post = fallbackPosts[slug]
+  if (!post) return { title: 'مقال | إكسورا كود' }
+
   return {
-    title: post ? `${post.title} | إكسورا كود` : 'مقال | إكسورا كود',
-    description: post?.excerpt,
+    title: `${post.title} | إكسورا كود`,
+    description: post.excerpt || post.title,
+    keywords: `${post.title}, ${post.category || 'برمجة'}, إكسورا كود, اكسورا, برمجة اليمن, تطوير مواقع عدن`,
+    authors: [{ name: post.author || 'فريق إكسورا كود' }],
+    openGraph: {
+      title: `${post.title} | إكسورا كود`,
+      description: post.excerpt || post.title,
+      type: 'article',
+      locale: 'ar_YE',
+      url: `https://exoracode.com/blog/${slug}`,
+      siteName: 'إكسورا كود',
+      publishedTime: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
+      authors: [post.author || 'فريق إكسورا كود'],
+      section: post.category || 'تقنية',
+      images: post.imageUrl
+        ? [{ url: post.imageUrl, width: 1200, height: 630 }]
+        : [{ url: '/og-image.png', width: 1200, height: 630 }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${post.title} | إكسورا كود`,
+      description: post.excerpt || post.title,
+    },
+    alternates: { canonical: `https://exoracode.com/blog/${slug}` },
   }
 }
+
 
 export default async function BlogPostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -60,8 +85,32 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
 
   return (
     <>
+      {/* Article JSON-LD for Google */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            '@context': 'https://schema.org',
+            '@type': 'Article',
+            headline: post.title,
+            description: post.excerpt || post.title,
+            author: { '@type': 'Organization', name: post.author || 'فريق إكسورا كود', url: 'https://exoracode.com' },
+            publisher: {
+              '@type': 'Organization', name: 'إكسورا كود',
+              logo: { '@type': 'ImageObject', url: 'https://exoracode.com/logo.png' },
+            },
+            datePublished: post.createdAt ? new Date(post.createdAt).toISOString() : undefined,
+            dateModified:  post.updatedAt ? new Date(post.updatedAt).toISOString() : undefined,
+            url: `https://exoracode.com/blog/${post.slug}`,
+            mainEntityOfPage: { '@type': 'WebPage', '@id': `https://exoracode.com/blog/${post.slug}` },
+            articleSection: post.category || 'تقنية',
+            inLanguage: 'ar',
+          }),
+        }}
+      />
       {/* Hero */}
       <section className="section-hero" style={{ background: 'linear-gradient(135deg, #0A001F 0%, #12002B 100%)' }}>
+
         <div className="container" style={{ maxWidth: '900px', position: 'relative' }}>
           <Link href="/blog" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.5rem', color: '#A066FF', textDecoration: 'none', fontFamily: 'Cairo, sans-serif', marginBottom: '1.75rem', fontSize: '0.875rem', fontWeight: 600 }}>
             <ArrowRight size={15} /> العودة للمدونة

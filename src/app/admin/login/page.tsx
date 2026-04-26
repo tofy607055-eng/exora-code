@@ -1,13 +1,11 @@
 'use client'
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import { Eye, EyeOff, Lock, Mail, AlertCircle, CheckCircle } from 'lucide-react'
 import ExoraLogo from '@/components/ExoraLogo'
 import { useToast } from '@/components/ToastProvider'
 
 export default function AdminLoginPage() {
-  const router = useRouter()
   const toast = useToast()
   const [form, setForm] = useState({ email: '', password: '' })
   const [showPass, setShowPass] = useState(false)
@@ -26,7 +24,7 @@ export default function AdminLoginPage() {
     if (result?.ok) {
       setStatus('success')
       toast.success('تم تسجيل الدخول بنجاح!', 'مرحباً بك في لوحة التحكم')
-      setTimeout(() => router.push('/admin/dashboard'), 800)
+      window.location.href = '/admin/dashboard'
     } else {
       setStatus('error')
       toast.error('فشل تسجيل الدخول', 'البريد الإلكتروني أو كلمة المرور غير صحيحة')
@@ -93,7 +91,7 @@ export default function AdminLoginPage() {
                 <Mail size={18} color="#7B3EFF" style={{ position: 'absolute', top: '50%', right: '1rem', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                 <input
                   type="email" required value={form.email}
-                  onChange={e => setStatus('idle') || setForm({ ...form, email: e.target.value })}
+                  onChange={e => { setStatus('idle'); setForm({ ...form, email: e.target.value }) }}
                   placeholder="exoracode@admin.com"
                   style={inp}
                 />
@@ -109,7 +107,7 @@ export default function AdminLoginPage() {
                 <Lock size={18} color="#7B3EFF" style={{ position: 'absolute', top: '50%', right: '1rem', transform: 'translateY(-50%)', pointerEvents: 'none' }} />
                 <input
                   type={showPass ? 'text' : 'password'} required value={form.password}
-                  onChange={e => setStatus('idle') || setForm({ ...form, password: e.target.value })}
+                  onChange={e => { setStatus('idle'); setForm({ ...form, password: e.target.value }) }}
                   placeholder="••••••••"
                   style={{ ...inp, paddingRight: '2.75rem' }}
                 />
